@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/leaderboardMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0B1024"
+    android:padding="20dp">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="✦  NEON ARCADE  ✦"
+        android:textColor="#A78BFA"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:letterSpacing="0.18"
+        android:layout_marginTop="18dp"/>
+
+    <!-- Main title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🏆 LEADERBOARD"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:letterSpacing="0.05"
+        android:layout_marginTop="18dp"/>
+
+    <!-- Subtitle -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TOP 25 PLAYERS"
+        android:textSize="12sp"
+        android:textColor="#C084FC"
+        android:gravity="center"
+        android:letterSpacing="0.15"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Column headings -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="25dp"
+        android:paddingHorizontal="12dp">
+
+        <TextView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="RANK"
+            android:textColor="#9299C0"
+            android:textSize="11sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PLAYER"
+            android:textColor="#9299C0"
+            android:textSize="11sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="SCORE"
+            android:textColor="#9299C0"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:gravity="end"/>
+    </LinearLayout>
+
+    <!-- Leaderboard entries -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:contentDescription="Leaderboard player scores">
+
+        <LinearLayout
+            android:id="@+id/leaderboardList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+    </ScrollView>
+
+    <!-- Back button -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:text="BACK TO HOME"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.06"
+        android:backgroundTint="#8B5CF6"
+        android:stateListAnimator="@null"
+        android:layout_marginTop="15dp"/>
+
+</LinearLayout>

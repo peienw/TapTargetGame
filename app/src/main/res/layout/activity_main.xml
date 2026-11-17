@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="26dp"
+    android:background="#0B1024">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✦  ARCADE GAME  ✦"
+        android:textColor="#C084FC"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.2"
+        android:layout_marginBottom="18dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TAP TARGET"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.08"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TEST YOUR SPEED &amp; ACCURACY"
+        android:textColor="#A78BFA"
+        android:textSize="11sp"
+        android:letterSpacing="0.12"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/bg_neon_hero"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="28dp"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎯"
+            android:textSize="92sp"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="READY PLAYER?"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.08"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap the highlighted target as fast as you can!"
+            android:textColor="#C4B5FD"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginTop="7dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:text="START GAME  ▶"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:letterSpacing="0.08"
+        android:background="@drawable/btn_neon_primary"
+        android:elevation="8dp"
+        android:stateListAnimator="@null"/>
+
+    <Button
+        android:id="@+id/btnLeaderboard"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_marginTop="16dp"
+        android:text="🏆  LEADERBOARD"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#E9D5FF"
+        android:letterSpacing="0.06"
+        android:background="@drawable/btn_neon_secondary"
+        android:stateListAnimator="@null"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TAP TARGET  •  VERSION 1.0"
+        android:textColor="#777DA5"
+        android:textSize="10sp"
+        android:letterSpacing="0.12"
+        android:layout_marginTop="35dp"/>
+
+</LinearLayout>
