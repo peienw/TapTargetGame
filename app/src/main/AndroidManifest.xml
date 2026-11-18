@@ -29,6 +29,9 @@
             android:name=".LeaderboardActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".HowToPlayActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

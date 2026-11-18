@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnStart, btnLeaderboard;
+    Button btnStart, btnLeaderboard, btnHowToPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         // Connect Java with XML buttons
         btnStart = findViewById(R.id.btnStart);
         btnLeaderboard = findViewById(R.id.btnLeaderboard);
+        btnHowToPlay = findViewById(R.id.btnHowToPlay);
 
         // Start Game button
         btnStart.setOnClickListener(v -> {
@@ -39,6 +40,17 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this,
                     LeaderboardActivity.class
             );
+            startActivity(intent);
+        });
+
+        // How to Play button
+        btnHowToPlay.setOnClickListener(v -> {
+
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    HowToPlayActivity.class
+            );
+
             startActivity(intent);
         });
     }

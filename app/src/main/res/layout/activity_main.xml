@@ -101,10 +101,23 @@
         android:background="@drawable/btn_neon_secondary"
         android:stateListAnimator="@null"/>
 
+    <Button
+        android:id="@+id/btnHowToPlay"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:layout_marginTop="16dp"
+        android:text="HOW TO PLAY"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#E9D5FF"
+        android:letterSpacing="0.06"
+        android:background="@drawable/btn_neon_secondary"
+        android:stateListAnimator="@null"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TAP TARGET  •  VERSION 1.0"
+        android:text="TAP TARGET"
         android:textColor="#777DA5"
         android:textSize="10sp"
         android:letterSpacing="0.12"

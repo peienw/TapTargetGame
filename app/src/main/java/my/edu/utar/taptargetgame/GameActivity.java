@@ -5,9 +5,12 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.app.AlertDialog;
 import android.text.InputType;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +31,10 @@ public class GameActivity extends AppCompatActivity {
     TextView txtScore;
     TextView txtTimer;
     CountDownTimer gameTimer;
+    CountDownTimer countdownTimer;
+    FrameLayout countdownOverlay;
     boolean timeUp = false;
+    int lastTimerSecond = -1;
     LinearLayout gameOverPanel;
     boolean scoreSaved = false;
 
@@ -61,6 +67,25 @@ public class GameActivity extends AppCompatActivity {
 
     private void startLevel() {
 
+        // Stop any previous timers
+        if (gameTimer != null) {
+            gameTimer.cancel();
+        }
+
+        if (countdownTimer != null) {
+            countdownTimer.cancel();
+        }
+
+        // Disable gameplay during countdown
+        timeUp = true;
+        highlightedIndex = -1;
+
+        // Reset timer display
+        txtTimer.setText("GET READY");
+        txtTimer.setTextColor(Color.rgb(34, 211, 238));
+        txtTimer.setScaleX(1f);
+        txtTimer.setScaleY(1f);
+
         // Update level title
         TextView txtLevel = findViewById(R.id.txtLevel);
 
@@ -72,8 +97,8 @@ public class GameActivity extends AppCompatActivity {
         // Generate grid
         createGrid(gridSize);
 
-        // Reset timer
-        startTimer();
+        // Start countdown before gameplay
+        startCountdown();
     }
 
     // Generate the game grid
@@ -155,9 +180,6 @@ public class GameActivity extends AppCompatActivity {
                 }
             });
         }
-
-        // Start by highlighting one tile
-        highlightRandomView();
     }
 
 
@@ -206,9 +228,16 @@ public class GameActivity extends AppCompatActivity {
         );
     }
 
+
     private void startTimer() {
 
         timeUp = false;
+        lastTimerSecond = -1;
+
+        // Reset timer appearance
+        txtTimer.setTextColor(Color.rgb(34, 211, 238));
+        txtTimer.setScaleX(1f);
+        txtTimer.setScaleY(1f);
 
         gameTimer = new CountDownTimer(5000, 100) {
 
@@ -219,6 +248,40 @@ public class GameActivity extends AppCompatActivity {
                         (millisUntilFinished + 999) / 1000;
 
                 txtTimer.setText("TIME: " + secondsLeft + "s");
+
+                // Apply warning effect during the final 2 seconds
+                if (secondsLeft != lastTimerSecond) {
+
+                    lastTimerSecond = (int) secondsLeft;
+
+                    if (secondsLeft <= 2) {
+
+                        txtTimer.setTextColor(
+                                Color.rgb(248, 113, 113)
+                        );
+
+                        txtTimer.animate()
+                                .scaleX(1.12f)
+                                .scaleY(1.12f)
+                                .setDuration(150)
+                                .withEndAction(() -> {
+
+                                    txtTimer.animate()
+                                            .scaleX(1f)
+                                            .scaleY(1f)
+                                            .setDuration(150)
+                                            .start();
+
+                                })
+                                .start();
+
+                    } else {
+
+                        txtTimer.setTextColor(
+                                Color.rgb(34, 211, 238)
+                        );
+                    }
+                }
             }
 
             @Override
@@ -228,14 +291,19 @@ public class GameActivity extends AppCompatActivity {
 
                 txtTimer.setText("TIME: 0s");
 
+                // Reset timer appearance
+                txtTimer.setTextColor(
+                        Color.rgb(248, 113, 113)
+                );
+                txtTimer.setScaleX(1f);
+                txtTimer.setScaleY(1f);
+
                 if (currentLevel < totalLevels) {
 
-                    // Show Continue or End Game options
                     showLevelCompleted();
 
                 } else {
 
-                    // All 4 levels completed
                     showFinalGameOver();
 
                 }
@@ -243,6 +311,123 @@ public class GameActivity extends AppCompatActivity {
 
         }.start();
     }
+
+
+
+    private void startCountdown() {
+
+        // Cancel any previous countdown
+        if (countdownTimer != null) {
+            countdownTimer.cancel();
+        }
+
+        // Get the main content area
+        FrameLayout content = findViewById(android.R.id.content);
+
+        // Create a transparent overlay
+        countdownOverlay = new FrameLayout(this);
+        countdownOverlay.setBackgroundColor(
+                Color.argb(170, 11, 16, 36)
+        );
+
+        // Create countdown text
+        TextView countdownText = new TextView(this);
+        countdownText.setText("3");
+        countdownText.setTextColor(Color.WHITE);
+        countdownText.setTextSize(64);
+        countdownText.setTypeface(
+                null,
+                android.graphics.Typeface.BOLD
+        );
+        countdownText.setGravity(Gravity.CENTER);
+
+        // Neon purple rounded background
+        GradientDrawable countdownBackground =
+                new GradientDrawable();
+
+        countdownBackground.setColor(Color.rgb(91, 45, 160));
+        countdownBackground.setCornerRadius(40);
+        countdownBackground.setStroke(
+                5,
+                Color.rgb(216, 180, 254)
+        );
+
+        countdownText.setBackground(countdownBackground);
+        countdownText.setElevation(20);
+
+        // Countdown box size and position
+        int minWidth = (int) (140 * getResources()
+                .getDisplayMetrics().density);
+
+        int minHeight = (int) (120 * getResources()
+                .getDisplayMetrics().density);
+
+        countdownText.setMinWidth(minWidth);
+        countdownText.setMinHeight(minHeight);
+
+        countdownText.setPadding(24, 16, 24, 16);
+
+        FrameLayout.LayoutParams textParams =
+                new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        Gravity.CENTER
+                );
+
+        countdownOverlay.addView(countdownText, textParams);
+
+        // Display overlay in the centre of the screen
+        content.addView(
+                countdownOverlay,
+                new FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                )
+        );
+
+        // Start countdown
+        countdownTimer = new CountDownTimer(3000, 1000) {
+
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                long secondsLeft =
+                        (millisUntilFinished + 999) / 1000;
+
+                // Update the large countdown number in the centre
+                countdownText.setText(
+                        String.valueOf(secondsLeft)
+                );
+            }
+
+
+            @Override
+            public void onFinish() {
+
+                // Display GO!
+                countdownText.setText("GO!");
+                countdownText.setTextSize(48);
+
+                // Show the highlighted target after GO!
+                highlightRandomView();
+
+                // Remove overlay and start actual gameplay
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+
+                    if (countdownOverlay != null) {
+                        content.removeView(countdownOverlay);
+                        countdownOverlay = null;
+                    }
+
+                    startTimer();
+
+                }, 500);
+            }
+
+        }.start();
+    }
+
 
     private void showLevelCompleted() {
 
@@ -444,12 +629,10 @@ public class GameActivity extends AppCompatActivity {
 
         // CHECK WHETHER SCORE HAS BEEN SAVED
         if (!scoreSaved) {
-
             // Check whether the score qualifies for Top 25
             LeaderboardManager manager = new LeaderboardManager(this);
 
             if (manager.isQualified(score)) {
-
                 // Ask player to enter name
                 EditText inputName = new EditText(this);
                 inputName.setHint("ENTER YOUR NAME");
@@ -491,9 +674,7 @@ public class GameActivity extends AppCompatActivity {
 
                 dialog.show();
                 styleNeonDialog(dialog);
-
             } else {
-
                 AlertDialog dialog = new AlertDialog.Builder(this)
                         .setTitle("NOT IN TOP 25")
                         .setMessage(
@@ -504,10 +685,8 @@ public class GameActivity extends AppCompatActivity {
                             dialogInterface.dismiss();
                         })
                         .create();
-
                 dialog.show();
                 styleNeonDialog(dialog);
-
             }
         }
 
@@ -615,6 +794,10 @@ public class GameActivity extends AppCompatActivity {
 
         if (gameTimer != null) {
             gameTimer.cancel();
+        }
+
+        if (countdownTimer != null) {
+            countdownTimer.cancel();
         }
     }
 }
